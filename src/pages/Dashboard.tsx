@@ -38,36 +38,22 @@ export default function Dashboard() {
   return (
     <div className="
       min-h-screen
-
-      /* 🔥 STRONGER BACKGROUND */
       bg-gradient-to-br from-[#e0ecff] via-[#f8fbff] to-[#eef2ff]
-
       dark:bg-gradient-to-br dark:from-[#050810] dark:to-[#0b0f1a]
-
       text-gray-900 dark:text-white
       overflow-x-hidden
       relative
     ">
 
-      {/* 🌈 IMPROVED GLOW */}
+      {/* BACKGROUND GLOW */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-[-120px] left-[10%] w-[420px] h-[420px] bg-blue-500/20 blur-[140px] rounded-full" />
         <div className="absolute bottom-[-120px] right-[10%] w-[420px] h-[420px] bg-indigo-500/20 blur-[140px] rounded-full" />
       </div>
 
-      {/* GRID */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-[0.05] dark:opacity-[0.02]"
-        style={{
-          backgroundImage:
-            'linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px)',
-          backgroundSize: '60px 60px',
-        }}
-      />
-
       {/* HEADER */}
       <header className="relative z-30 w-full border-b border-gray-200/60 dark:border-white/10 bg-white/70 dark:bg-[#050810]/80 backdrop-blur-xl">
-        <div className="max-w-[1400px] mx-auto px-6 h-16 flex items-center justify-between">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
 
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-gradient-to-br from-blue-500 to-indigo-500 shadow-lg">
@@ -104,8 +90,8 @@ export default function Dashboard() {
         </div>
       </header>
 
-      {/* MAIN */}
-      <main className="relative z-10 max-w-[1400px] mx-auto px-6 py-10 space-y-10">
+      {/* MAIN (FIXED PROPERLY) */}
+      <main className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-6 sm:space-y-10">
 
         {/* TITLE */}
         <div>
@@ -113,7 +99,7 @@ export default function Dashboard() {
             Financial Overview
           </p>
 
-          <h1 className="text-4xl font-extrabold">
+          <h1 className="text-2xl sm:text-4xl font-extrabold">
             Your{" "}
             <span className="bg-gradient-to-r from-blue-500 via-indigo-500 to-cyan-400 bg-clip-text text-transparent">
               Dashboard
@@ -125,9 +111,11 @@ export default function Dashboard() {
           </p>
         </div>
 
+        {/* CARDS */}
         <SummaryCards />
 
-        <div className="grid gap-6 lg:grid-cols-3">
+        {/* CHARTS */}
+        <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           <div className="lg:col-span-2 hover:scale-[1.01] transition">
             <BalanceTrendChart />
           </div>
@@ -136,9 +124,11 @@ export default function Dashboard() {
           </div>
         </div>
 
+        {/* INSIGHTS */}
         <InsightsSection />
 
-        <div className="hover:shadow-xl transition">
+        {/* TABLE */}
+        <div className="hover:shadow-xl transition overflow-x-auto">
           <TransactionTable />
         </div>
 
