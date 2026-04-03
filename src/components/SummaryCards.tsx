@@ -58,23 +58,17 @@ function StatCard({
     <div
       className="
         relative overflow-hidden rounded-2xl
-
-        /* LIGHT MODE */
         bg-gradient-to-br from-white via-blue-50/70 to-indigo-50/70
         border border-blue-100/60
         shadow-[0_15px_40px_rgba(59,130,246,0.15)]
         hover:shadow-[0_25px_70px_rgba(59,130,246,0.25)]
-
-        /* DARK MODE (NEW PREMIUM) */
         dark:bg-gradient-to-br dark:from-[#0b1220] dark:to-[#071a2f]
         dark:border-white/10
         dark:shadow-[0_20px_60px_rgba(0,0,0,0.6)]
-
         hover:-translate-y-1 hover:scale-[1.02]
         transition-all duration-300 ease-out
       "
     >
-      {/* 🔥 TOP LINE */}
       <div
         className="absolute top-0 left-0 right-0 h-[3px]"
         style={{
@@ -82,17 +76,13 @@ function StatCard({
         }}
       />
 
-      {/* 🌈 LIGHT MODE GLOW */}
       <div className="absolute -top-10 -left-10 w-40 h-40 bg-blue-400/20 blur-3xl rounded-full" />
       <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-indigo-400/20 blur-3xl rounded-full" />
 
-      {/* 🌌 DARK MODE GLOW */}
       <div className="absolute -top-10 -left-10 w-40 h-40 bg-cyan-400/10 blur-3xl rounded-full dark:block hidden" />
       <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-blue-500/10 blur-3xl rounded-full dark:block hidden" />
 
       <div className="relative p-6">
-
-        {/* HEADER */}
         <div className="flex justify-between mb-5">
           <div>
             <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 dark:text-white/70">
@@ -121,14 +111,12 @@ function StatCard({
           </div>
         </div>
 
-        {/* VALUE */}
         <div className="mb-4">
           <span className="text-3xl font-extrabold text-gray-900 dark:text-white">
             {value}
           </span>
         </div>
 
-        {/* FOOTER */}
         <div className="flex justify-between items-end">
           <div>
             {change && (
@@ -174,7 +162,8 @@ export function SummaryCards() {
   }, [transactions]);
 
   return (
-    <div className="grid gap-5 grid-cols-1 sm:grid-cols-3">
+    // ✅ UPDATED RESPONSIVE GRID
+    <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
 
       <StatCard
         label="Net Balance"

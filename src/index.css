@@ -38,3 +38,17 @@ body {
 * {
   transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
+
+/* Mobile */
+@media (max-width: 600px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .dashboard {
+    grid-template-columns: 1fr 1fr;
+  }
+}
