@@ -115,7 +115,8 @@ export default function Dashboard() {
         <SummaryCards />
 
         {/* CHARTS */}
-        <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        
+          <div className="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           <div className="lg:col-span-2 hover:scale-[1.01] transition">
             <BalanceTrendChart />
           </div>
@@ -128,7 +129,7 @@ export default function Dashboard() {
         <InsightsSection />
 
         {/* TABLE */}
-        <div className="hover:shadow-xl transition overflow-x-auto">
+       <div className="hover:shadow-xl transition overflow-x-auto">
           <TransactionTable />
         </div>
 
