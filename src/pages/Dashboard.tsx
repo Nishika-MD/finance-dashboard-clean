@@ -17,7 +17,7 @@ function RoleToggle() {
         <button
           key={r}
           onClick={() => setRole(r as any)}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-300 ${
+          className={`flex items-center gap-1.5 px-2 sm:px-3 py-1 text-[10px] sm:text-xs rounded-lg text-xs font-semibold transition-all duration-300 ${
             role === r
               ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-md scale-105'
               : 'text-gray-600 dark:text-white/50 hover:text-gray-900 dark:hover:text-white'
@@ -73,7 +73,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <RoleToggle />
 
             <Button

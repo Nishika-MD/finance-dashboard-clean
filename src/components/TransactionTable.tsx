@@ -72,7 +72,7 @@ export function TransactionTable() {
       {/* TABLE */}
       <div className="rounded-2xl overflow-hidden bg-white border border-blue-100 shadow-md dark:bg-[#0b0f1a]/80 dark:border-white/10">
 
-        <table className="w-full text-sm">
+        <table className="min-w-[600px] w-full">
 
           <thead className="bg-blue-50 border-b border-blue-100 dark:bg-white/5">
             <tr>
