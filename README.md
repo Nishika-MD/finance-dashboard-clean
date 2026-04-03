@@ -59,13 +59,7 @@ npm run dev
 
 ---
 
-### Step 4: Open in Browser
-
-http://localhost:5173  
-
----
-
-### Step 5: Use the Application
+### Step 4: Use the Application
 
 - View dashboard summary  
 - Explore transactions  
@@ -83,11 +77,6 @@ http://localhost:5173
 
 ### 📊 Dashboard Overview (Dark Mode)
 ![Dashboard Overview](./screenshots/dashboard-overview.png)
-
----
-
-### 📈 Balance Trend Chart
-![Balance Trend](./screenshots/balance-trend-chart.png)
 
 ---
 
