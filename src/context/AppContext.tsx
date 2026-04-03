@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState, useMemo } from 'react';
+import React, { createContext, useContext, useState, useMemo,useEffect } from 'react';
 import { Transaction, mockTransactions } from '../data/mockData';
+
 
 export type Role = 'admin' | 'viewer';
 
@@ -25,7 +26,15 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [transactions, setTransactions] = useState<Transaction[]>(mockTransactions);
+  
+  const [transactions, setTransactions] = useState<Transaction[]>(() => {
+  const saved = localStorage.getItem("transactions");
+  return saved ? JSON.parse(saved) : mockTransactions;
+});
+
+useEffect(() => {
+  localStorage.setItem("transactions", JSON.stringify(transactions));
+}, [transactions]);
   const [role, setRole] = useState<Role>('admin');
   const [filters, setFilters] = useState<FilterState>({
     search: '',
@@ -39,11 +48,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const updateTransaction = (id: string, updatedTx: Transaction) => {
-    setTransactions(prev => prev.map(tx => tx.id === id ? updatedTx : tx));
+    setTransactions(prev =>
+      prev.map(tx => tx.id === id ? updatedTx : tx)
+    );
   };
 
   const deleteTransaction = (id: string) => {
-    setTransactions(prev => prev.filter(tx => tx.id !== id));
+    setTransactions(prev =>
+      prev.filter(tx => tx.id !== id)
+    );
   };
 
   const filteredTransactions = useMemo(() => {
@@ -61,7 +74,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       transactions,
       addTransaction,
       updateTransaction,
-      deleteTransaction,
+      deleteTransaction, // ✅ important
       role,
       setRole,
       filters,
@@ -75,8 +88,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
 export const useAppContext = () => {
   const context = useContext(AppContext);
-  if (context === undefined) {
-    throw new Error('useAppContext must be used within an AppProvider');
-  }
+  if (!context) throw new Error('useAppContext must be used within AppProvider');
   return context;
 };

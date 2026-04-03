@@ -4,35 +4,32 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAppContext } from '../context/AppContext';
 import { Transaction, Category, TransactionType } from '../data/mockData';
-import { 
-  Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter 
+
+import {
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter
 } from '@/components/ui/dialog';
-import { 
-  Form, FormControl, FormField, FormItem, FormLabel, FormMessage 
+
+import {
+  Form, FormControl, FormField, FormItem, FormLabel, FormMessage
 } from '@/components/ui/form';
+
 import { Input } from '@/components/ui/input';
-import { 
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue 
+import {
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 
 const formSchema = z.object({
-  description: z.string().min(1, "Description is required"),
-  amount: z.coerce.number().refine(val => val !== 0, "Amount cannot be zero"),
-  category: z.string().min(1, "Category is required"),
+  description: z.string().min(1),
+  amount: z.coerce.number().refine(val => val !== 0),
+  category: z.string().min(1),
   type: z.enum(["income", "expense"]),
-  date: z.string().min(1, "Date is required"),
+  date: z.string().min(1),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
-interface TransactionFormProps {
-  isOpen: boolean;
-  onClose: () => void;
-  transaction?: Transaction;
-}
-
-export function TransactionForm({ isOpen, onClose, transaction }: TransactionFormProps) {
+export function TransactionForm({ isOpen, onClose, transaction }: any) {
   const { addTransaction, updateTransaction } = useAppContext();
 
   const form = useForm<FormValues>({
@@ -55,98 +52,117 @@ export function TransactionForm({ isOpen, onClose, transaction }: TransactionFor
         type: transaction.type,
         date: transaction.date,
       });
-    } else if (!transaction && isOpen) {
-      form.reset({
-        description: '',
-        amount: 0,
-        category: 'Housing',
-        type: 'expense',
-        date: new Date().toISOString().split('T')[0],
-      });
     }
-  }, [transaction, isOpen, form]);
+  }, [transaction, isOpen]);
 
   const onSubmit = (values: FormValues) => {
-    const amount = values.type === 'expense' ? -Math.abs(values.amount) : Math.abs(values.amount);
-    
+    const amount = values.type === 'expense'
+      ? -Math.abs(values.amount)
+      : Math.abs(values.amount);
+
     const tx: Transaction = {
-      id: transaction ? transaction.id : Math.random().toString(36).substring(7),
-      description: values.description,
+      id: transaction ? transaction.id : Math.random().toString(),
+      ...values,
       amount,
       category: values.category as Category,
       type: values.type as TransactionType,
-      date: values.date,
     };
 
-    if (transaction) {
-      updateTransaction(transaction.id, tx);
-    } else {
-      addTransaction(tx);
-    }
-    
+    transaction ? updateTransaction(transaction.id, tx) : addTransaction(tx);
     onClose();
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="
+        sm:max-w-[420px]
+        bg-white dark:bg-[#0b0f1a]
+        border border-gray-200 dark:border-white/10
+        shadow-xl
+      ">
         <DialogHeader>
-          <DialogTitle>{transaction ? 'Edit Transaction' : 'Add Transaction'}</DialogTitle>
+          <DialogTitle className="text-gray-900 dark:text-white">
+            {transaction ? 'Edit Transaction' : 'Add Transaction'}
+          </DialogTitle>
         </DialogHeader>
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+
+            {/* Description */}
             <FormField
               control={form.control}
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel className="text-gray-700 dark:text-white/70">
+                    Description
+                  </FormLabel>
                   <FormControl>
-                    <Input placeholder="Grocery store..." {...field} />
+                    <Input
+                      {...field}
+                      className="bg-gray-100 dark:bg-white/5 border-gray-200 dark:border-white/10 text-gray-900 dark:text-white"
+                    />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
+
+            {/* Amount + Date */}
             <div className="grid grid-cols-2 gap-4">
               <FormField
                 control={form.control}
                 name="amount"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Amount</FormLabel>
+                    <FormLabel className="text-gray-700 dark:text-white/70">
+                      Amount
+                    </FormLabel>
                     <FormControl>
-                      <Input type="number" step="0.01" {...field} />
+                      <Input
+                        type="number"
+                        {...field}
+                        className="bg-gray-100 dark:bg-white/5 border-gray-200 dark:border-white/10 text-gray-900 dark:text-white"
+                      />
                     </FormControl>
-                    <FormMessage />
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="date"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Date</FormLabel>
+                    <FormLabel className="text-gray-700 dark:text-white/70">
+                      Date
+                    </FormLabel>
                     <FormControl>
-                      <Input type="date" {...field} />
+                      <Input
+                        type="date"
+                        {...field}
+                        className="bg-gray-100 dark:bg-white/5 border-gray-200 dark:border-white/10 text-gray-900 dark:text-white"
+                      />
                     </FormControl>
-                    <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
+
+            {/* Type + Category */}
             <div className="grid grid-cols-2 gap-4">
               <FormField
                 control={form.control}
                 name="type"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Type</FormLabel>
+                    <FormLabel className="text-gray-700 dark:text-white/70">
+                      Type
+                    </FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select type" />
+                        <SelectTrigger className="bg-gray-100 dark:bg-white/5 border-gray-200 dark:border-white/10 text-gray-900 dark:text-white">
+                          <SelectValue />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -154,20 +170,22 @@ export function TransactionForm({ isOpen, onClose, transaction }: TransactionFor
                         <SelectItem value="income">Income</SelectItem>
                       </SelectContent>
                     </Select>
-                    <FormMessage />
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="category"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Category</FormLabel>
+                    <FormLabel className="text-gray-700 dark:text-white/70">
+                      Category
+                    </FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select category" />
+                        <SelectTrigger className="bg-gray-100 dark:bg-white/5 border-gray-200 dark:border-white/10 text-gray-900 dark:text-white">
+                          <SelectValue />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -178,20 +196,24 @@ export function TransactionForm({ isOpen, onClose, transaction }: TransactionFor
                         <SelectItem value="Healthcare">Healthcare</SelectItem>
                         <SelectItem value="Shopping">Shopping</SelectItem>
                         <SelectItem value="Utilities">Utilities</SelectItem>
-                        <SelectItem value="Income">Income</SelectItem>
-                        <SelectItem value="Freelance">Freelance</SelectItem>
                         <SelectItem value="Investment">Investment</SelectItem>
                       </SelectContent>
                     </Select>
-                    <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
+
+            {/* Buttons */}
             <DialogFooter className="pt-4">
-              <Button type="button" variant="outline" onClick={onClose}>Cancel</Button>
-              <Button type="submit">Save</Button>
+              <Button variant="outline" onClick={onClose}>
+                Cancel
+              </Button>
+              <Button className="bg-indigo-500 hover:bg-indigo-600 text-white">
+                Save
+              </Button>
             </DialogFooter>
+
           </form>
         </Form>
       </DialogContent>
